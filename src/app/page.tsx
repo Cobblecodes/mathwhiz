@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
@@ -13,11 +14,12 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import ProblemDisplay from '@/components/math-whiz/ProblemDisplay';
 import Scoreboard from '@/components/math-whiz/Scoreboard';
+import ThemeToggle from '@/components/ThemeToggle';
 import { generateArithmeticProblem } from '@/lib/math-utils';
 import type { Difficulty, ArithmeticOperation, Problem } from '@/components/math-whiz/types';
 import { adjustDifficulty, type AdjustDifficultyInput } from '@/ai/flows/adaptive-difficulty';
 import { useToast } from "@/hooks/use-toast";
-import { BookOpen, HelpCircle, Plus, Minus, X, Divide } from 'lucide-react';
+import { BookOpen, HelpCircle, Plus, Minus, X, Divide, Loader2 } from 'lucide-react';
 
 const topics: { value: ArithmeticOperation | 'Mixed'; label: string; icon: React.ElementType }[] = [
   { value: '+', label: 'Addition', icon: Plus },
@@ -52,7 +54,7 @@ export default function Home() {
   }, [loadNewProblem]);
 
   const handleAdjustDifficulty = async () => {
-    if (problemsAttempted < 5) return; // Adjust difficulty after 5 problems
+    if (problemsAttempted < 5) return; 
 
     setIsAdaptingDifficulty(true);
     const performance = problemsAttempted > 0 ? problemsCorrect / problemsAttempted : 0;
@@ -87,14 +89,14 @@ export default function Home() {
     if (!currentProblem) return false;
 
     setProblemsAttempted((prev) => prev + 1);
-    const isCorrect = Math.abs(answer - currentProblem.correctAnswer) < 0.001; // Use tolerance for float comparison
+    const isCorrect = Math.abs(answer - currentProblem.correctAnswer) < 0.001; 
 
     if (isCorrect) {
       setScore((prev) => prev + (difficulty === 'beginner' ? 10 : difficulty === 'intermediate' ? 20 : 30));
       setProblemsCorrect((prev) => prev + 1);
     }
     
-    if ((problemsAttempted + 1) % 5 === 0) { // Check after this answer is counted
+    if ((problemsAttempted + 1) % 5 === 0) { 
         handleAdjustDifficulty();
     }
 
@@ -111,17 +113,20 @@ export default function Home() {
 
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-br from-background to-secondary">
-      <header className="mb-8 text-center">
-        <h1 className="text-5xl font-bold text-primary flex items-center justify-center">
-          <BookOpen className="w-12 h-12 mr-3" /> MathWhiz
+    <div className="min-h-screen flex flex-col items-center p-4 sm:p-6 md:p-8 bg-gradient-to-br from-background to-secondary">
+      <header className="mb-8 sm:mb-10 md:mb-12 text-center w-full max-w-4xl relative">
+        <div className="absolute top-0 right-0">
+          <ThemeToggle />
+        </div>
+        <h1 className="text-4xl sm:text-5xl font-bold text-primary flex items-center justify-center pt-12 sm:pt-4">
+          <BookOpen className="w-10 h-10 sm:w-12 sm:h-12 mr-2 sm:mr-3" /> MathWhiz
         </h1>
-        <p className="text-muted-foreground text-lg mt-2">
+        <p className="text-muted-foreground text-md sm:text-lg mt-2">
           Sharpen your math skills with endless practice!
         </p>
       </header>
 
-      <main className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-8">
+      <main className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
         <section className="md:col-span-2">
           {currentProblem ? (
             <ProblemDisplay
@@ -134,13 +139,14 @@ export default function Home() {
           ) : (
              <Card className="w-full shadow-lg">
               <CardContent className="p-6 flex items-center justify-center min-h-[200px]">
+                <Loader2 className="mr-2 h-8 w-8 animate-spin text-primary" />
                  <p className="text-xl text-muted-foreground">Loading problem...</p>
               </CardContent>
             </Card>
           )}
         </section>
 
-        <aside className="space-y-6">
+        <aside className="space-y-6 sm:space-y-8">
           <Card className="shadow-lg">
             <CardHeader>
               <CardTitle>Customize Practice</CardTitle>
@@ -202,7 +208,7 @@ export default function Home() {
           />
         </aside>
       </main>
-      <footer className="mt-12 text-center text-muted-foreground">
+      <footer className="mt-10 sm:mt-12 md:mt-16 text-center text-muted-foreground">
         <p>&copy; {new Date().getFullYear()} MathWhiz. Keep practicing!</p>
       </footer>
     </div>
