@@ -1,45 +1,62 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
+# Dependencies
 /node_modules
 /.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
+.pnp.js
 
-# testing
+# Testing
 /coverage
 
-# next.js
+# Next.js
 /.next/
 /out/
 
-# production
+# Production
 /build
 
-# misc
+# Misc
 .DS_Store
 *.pem
 
-# debug
+# Local Environment Variables
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDEs and editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Log files
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
+pnpm-debug.log*
 
-# vercel
-.vercel
+# Editor directories and files
+.idea
+.vscode
+*.swp
+*~
+*.orig
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# Optional: Firebase
+# If you're using Firebase emulators and storing data locally, you might want to ignore these
+# .firebase/
+# firebase-debug.log
+# *.sqlite
 
-.genkit/*
-.env*
+# Optional: Genkit - if you have local state or logs you don't want to commit
+# .genkit/state/
+# .genkit/logs/
+# genkit.log
 
-# firebase
-firebase-debug.log
-firestore-debug.log
+# Turbopack
+.turbo
